@@ -10,11 +10,13 @@ class Recipe {
   final String title;
   final String description;
   final List<String> ingredients;
+  final String? photo;
 
   Recipe({
     required this.title,
     required this.description,
     required this.ingredients,
+    this.photo,
   });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class Recipe {
       title: json['title'],
       description: json['description'],
       ingredients: List<String>.from(json['ingredients']),
+      photo: json['photo'],
     );
   }
 }
@@ -33,38 +36,15 @@ class MyApp extends StatelessWidget {
         {
           "title": "Pasta Carbonara",
           "description": "Creamy pasta dish with bacon and cheese.",
-          "ingredients": ["spaghetti", "bacon", "egg", "cheese"]
+          "ingredients": ["spaghetti", "bacon", "egg", "cheese"],
+          "photo": "images/pasta.jpg"
         },
         {
           "title": "Caprese Salad",
           "description": "Simple and refreshing salad with tomatoes, mozzarella, and basil.",
           "ingredients": ["tomatoes", "mozzarella", "basil"]
         },
-        {
-          "title": "Banana Smoothie",
-          "description": "Healthy and creamy smoothie with bananas and milk.",
-          "ingredients": ["bananas", "milk"]
-        },
-        {
-          "title": "Chicken Stir-Fry",
-          "description": "Quick and flavorful stir-fried chicken with vegetables.",
-          "ingredients": ["chicken breast", "broccoli", "carrot", "soy sauce"]
-        },
-        {
-          "title": "Grilled Salmon",
-          "description": "Delicious grilled salmon with lemon and herbs.",
-          "ingredients": ["salmon fillet", "lemon", "olive oil", "dill"]
-        },
-        {
-          "title": "Vegetable Curry",
-          "description": "Spicy and aromatic vegetable curry.",
-          "ingredients": ["mixed vegetables", "coconut milk", "curry powder"]
-        },
-        {
-          "title": "Berry Parfait",
-          "description": "Layered dessert with fresh berries and yogurt.",
-          "ingredients": ["berries", "yogurt", "granola"]
-        }
+        // Add more recipes here
       ]
     }
   ''';
@@ -117,6 +97,13 @@ class MyApp extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final recipe = recipes[index];
                   return ListTile(
+                    leading: recipe.photo != null
+                        ? Image.asset(
+                      recipe.photo!,
+                      width: 48,
+                      height: 48,
+                    )
+                        : Icon(Icons.image_not_supported),
                     title: Text(recipe.title),
                     subtitle: Text(recipe.description),
                     trailing: Icon(Icons.chevron_right),
